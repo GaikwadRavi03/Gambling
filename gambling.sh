@@ -4,17 +4,23 @@ echo "Welcome to Gambling Simulator Program"
 
 STAKE=100
 Maxlimit=0
-minlimit=0
+Minlimit=0
+DAYS=20
+TotalStake=0
+VALUE=50
+
 dailyBetAmount=$STAKE
 
 function limit () {
 	Maxlimit=$(($dailyBetAmount+$dailyBetAmount*50/100))
-	minlimit=$(($dailyBetAmount-$dailyBetAmount*50/100))
+	Minlimit=$(($dailyBetAmount-$dailyBetAmount*50/100))
 }
 
 function betting() {
-  while [ $dailyBetAmount -ne 0 ]
+  for (( counter=1; counter<=$DAYS; counter++ ))
   do
+    while [ $dailyBetAmount -ne 0 ]
+    do
 	random=$((RANDOM%2))
 	if [ $random -eq 1 ]
 	then 
@@ -28,16 +34,24 @@ function betting() {
 	else
 		echo "lose 1 stake"
 		((dailyBetAmount--))
-		if [ $dailyBetAmount -eq $minlimit ]
+		if [ $dailyBetAmount -eq $Minlimit ]
 		then 
 			echo "you reach minlimit"
 			break
 		fi
 	fi
+    done
+	if [ $dailyBetAmount -eq $Minlimit ]
+	then
+		TotalStake=$(($TotalStake-$VALUE))	
+		echo "TotalStake : $TotalStake"
+	else
+		TotalStake=$(($TotalStake+$VALUE))
+		echo "TotalStake : $TotalStake"
+	fi
+  	dailyBetAmount=100
   done
 }
 
 limit
 betting
-echo $dailyBetAmount
-
