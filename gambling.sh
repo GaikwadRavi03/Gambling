@@ -5,7 +5,7 @@ echo "Welcome to Gambling Simulator Program"
 STAKE=100
 Maxlimit=0
 Minlimit=0
-DAYS=20
+DAYS=30
 TotalStake=0
 VALUE=50
 
@@ -55,3 +55,4 @@ function betting() {
 
 limit
 betting
+echo "now your Stakes : $TotalStake"
