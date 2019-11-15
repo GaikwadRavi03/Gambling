@@ -54,10 +54,9 @@ function betting() {
   done
 }
 
-limit
-betting
-echo "now your Stakes : $TotalStake"
 
+
+function luckyornot(){
 profitValue=$(printf "%s\n" ${Dictionary[@]} | sort -n | tail -1 )
 lossValue=$(printf "%s\n" ${Dictionary[@]} | sort -n | head -1 )
 
@@ -77,3 +76,15 @@ do
 		echo "unlucky day :$key"
 	fi
 done
+}
+function toContinueOrNot() {
+	while [ $TotalStake != -1  ]
+	do  
+		limit
+		betting
+		luckyornot
+	done
+}
+
+toContinueOrNot
+echo "now your Stakes : $TotalStake"
