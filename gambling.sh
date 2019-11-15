@@ -52,20 +52,26 @@ function betting() {
 	fi
   	dailyBetAmount=100
   done
+	if [ $TotalStake -gt 0 ]
+	then
+		read -p "do you want to countinue 1.Yes 2.No :" toCountinue
+		if [ $toCountinue -eq 1 ]
+		then		
+			betting
+		fi
+	fi
 }
 
-
-
 function luckyornot(){
-profitValue=$(printf "%s\n" ${Dictionary[@]} | sort -n | tail -1 )
-lossValue=$(printf "%s\n" ${Dictionary[@]} | sort -n | head -1 )
+	profitValue=$(printf "%s\n" ${Dictionary[@]} | sort -n | tail -1 )
+	lossValue=$(printf "%s\n" ${Dictionary[@]} | sort -n | head -1 )
 
-echo profitValue: $profitValue
-echo lossValue :$lossValue
+	echo profitValue: $profitValue
+	echo lossValue :$lossValue
 
-echo ${!Dictionary[@]} : ${Dictionary[@]}
-for key in ${!Dictionary[@]}
-do
+	echo ${!Dictionary[@]} : ${Dictionary[@]}
+	for key in ${!Dictionary[@]}
+	do
 	if [ ${Dictionary[$key]} -eq $profitValue ]
 	then
 		echo "lucky day :$key"
@@ -75,16 +81,15 @@ do
 	then
 		echo "unlucky day :$key"
 	fi
-done
+	done
 }
+
 function toContinueOrNot() {
-	while [ $TotalStake != -1  ]
-	do  
 		limit
 		betting
 		luckyornot
-	done
 }
 
 toContinueOrNot
 echo "now your Stakes : $TotalStake"
+
