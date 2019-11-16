@@ -3,23 +3,23 @@
 echo "Welcome to Gambling Simulator Program"
 
 STAKE=100
-Maxlimit=0
-Minlimit=0
-DAYS=30
-TotalStake=0
 VALUE=50
+DAYS=30
+maxLimit=0
+minLimit=0
+totalStake=0
 
-dailyBetAmount=$STAKE
 declare -A Dictionary
 
 function limit () {
-	Maxlimit=$(($dailyBetAmount+$dailyBetAmount*50/100))
-	Minlimit=$(($dailyBetAmount-$dailyBetAmount*50/100))
+	maxLimit=$(($STAKE+$STAKE*$VALUE/100))
+	minLimit=$(($STAKE-$STAKE*$VALUE/100))
 }
 
 function betting() {
   for (( counter=1; counter<=$DAYS; counter++ ))
   do
+    dailyBetAmount=$STAKE
     while [ $dailyBetAmount -ne 0 ]
     do
 	random=$((RANDOM%2))
@@ -27,36 +27,36 @@ function betting() {
 	then 
 		echo "win 1 stake"
 		((dailyBetAmount++))
-		if [ $dailyBetAmount -eq $Maxlimit ]
+		if [ $dailyBetAmount -eq $maxLimit ]
 		then 
-			echo "you reach Maxlimit "
+			echo "you reach MaxLimit "
 			break
 		fi
 	else
 		echo "lose 1 stake"
 		((dailyBetAmount--))
-		if [ $dailyBetAmount -eq $Minlimit ]
+		if [ $dailyBetAmount -eq $minLimit ]
 		then 
-			echo "you reach minlimit"
+			echo "you reach minLimit"
 			break
 		fi
 	fi
     done
-	if [ $dailyBetAmount -eq $Minlimit ]
+	if [ $dailyBetAmount -eq $minLimit ]
 	then
-		TotalStake=$(($TotalStake-$VALUE))	
-		Dictionary[$counter]=$TotalStake
+		totalStake=$(($totalStake-$VALUE))
+		Dictionary[$counter]=$totalStake
 	else
-		TotalStake=$(($TotalStake+$VALUE))
-		Dictionary[$counter]=$TotalStake
+		totalStake=$(($totalStake+$VALUE))
+		Dictionary[$counter]=$totalStake
 	fi
   	dailyBetAmount=100
   done
-	if [ $TotalStake -gt 0 ]
+	if [ $totalStake -gt 0 ]
 	then
 		read -p "do you want to countinue 1.Yes 2.No :" toCountinue
 		if [ $toCountinue -eq 1 ]
-		then		
+		then
 			betting
 		fi
 	fi
@@ -91,5 +91,4 @@ function toContinueOrNot() {
 }
 
 toContinueOrNot
-echo "now your Stakes : $TotalStake"
-
+echo "now your Stakes : $totalStake"
